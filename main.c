@@ -50,6 +50,7 @@ sg_initialize(struct sg_ctx *ctx, uint32_t height, uint32_t width)
 	assert(ctx->screen.window != NULL);
 	ctx->screen.renderer = SDL_CreateRenderer(ctx->screen.window, -1,
 	    SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	return true;
 }
 
 bool sg_game_loop(sg_ctx_t *ctx)
@@ -57,11 +58,30 @@ bool sg_game_loop(sg_ctx_t *ctx)
 	SDL_Event event;
 	while (ctx->running) {
 		if (SDL_PollEvent(&event)) {
-			switch(event.type) {
-			case SDL_QUIT:
+			if (event.type == SDL_QUIT) {
 				sg_debug("Game quit\n");
 				ctx->running = SDL_FALSE;
 				break;
+			} else if (event.type == SDL_KEYDOWN) {
+				SDL_Keycode key;
+
+				if (sg_keytest(SDLK_UP) && sg_keytest(SDLK_RIGHT)) {
+					sg_hero_position(ctx, SG_HERO_POS_NE);
+				} else if (sg_keytest(SDLK_UP) && sg_keytest(SDLK_LEFT)) {
+					sg_hero_position(ctx, SG_HERO_POS_NW);
+				} else if (sg_keytest(SDLK_DOWN) && sg_keytest(SDLK_RIGHT)) {
+					sg_hero_position(ctx, SG_HERO_POS_SE);
+				} else if (sg_keytest(SDLK_DOWN) && sg_keytest(SDLK_LEFT)) {
+					sg_hero_position(ctx, SG_HERO_POS_SW);
+				} else if (sg_keytest(SDLK_UP)) {
+					sg_hero_position(ctx, SG_HERO_POS_NORTH);
+				} else if (sg_keytest(SDLK_DOWN)) {
+					sg_hero_position(ctx, SG_HERO_POS_SOUTH);
+				} else if (sg_keytest(SDLK_RIGHT)) {
+					sg_hero_position(ctx, SG_HERO_POS_EAST);
+				} else if (sg_keytest(SDLK_LEFT)) {
+					sg_hero_position(ctx, SG_HERO_POS_WEST);
+				}
 			}
 		}
 	}
@@ -70,8 +90,7 @@ bool sg_game_loop(sg_ctx_t *ctx)
 	ctx->quit(ctx);
 	return true;
 }
-					    
-	    
+
 int main(int argc, char **argv)
 {
 	sg_ctx_t ctx;
@@ -82,5 +101,3 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 }
-
-

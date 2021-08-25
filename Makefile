@@ -1,5 +1,5 @@
 all:
-	gcc main.c -o sg_run -lSDL2
+	g++ main.c hero.c position.c key.c -o sg_run -lSDL2
 clean:
 	rm -f 7g
 
