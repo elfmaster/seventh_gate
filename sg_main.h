@@ -24,6 +24,14 @@
 #define SG_SURFACE_ENEMY	7
 #define SG_SURFACE_MAX		10
 
+#define SG_SURFACE_ANGLE_NORTH 0
+#define SG_SURFACE_ANGLE_NE 1
+#define SG_SURFACE_ANGLE_NW 2
+#define SG_SURFACE_ANGLE_SOUTH 3
+#define SG_SURFACE_ANGLE_SE 4
+#define SG_SURFACE_ANGLE_SW 5
+#define SG_SURFACE_ANGLE_EAST 6
+#define SG_SURFACE_ANGLE_WEST 7
 #define SG_SURFACE_ANGLE_MAX 8
 
 struct surface_angle {
@@ -46,6 +54,8 @@ struct sg_hero {
 	int x, y;
 	struct player_stats stats;
 	struct surface_angle walk[SG_SURFACE_ANGLE_MAX];
+	struct surface_angle attack[SG_SURFACE_ANGLE_MAX];
+	struct surface_angle magic[SG_SURFACE_ANGLE_MAX];
 };
 
 /*
